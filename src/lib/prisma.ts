@@ -11,7 +11,8 @@ function createPrismaClient() {
     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const adapter = new PrismaPg(pool);
     return new PrismaClient({ adapter });
-  } catch {
+  } catch (error) {
+    console.error("Failed to create Prisma client with pg adapter, falling back to default:", error);
     return new PrismaClient({} as any);
   }
 }
